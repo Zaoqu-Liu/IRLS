@@ -16,10 +16,6 @@ mm <- lapply(mm,function(x){
   x[,-c(1:3)] <- scale(x[,-c(1:3)])
   return(x)})
 
-##################################
-#### 准备工作 ####
-##################################
-
 result <- data.frame()
 est_data <- mm$TCGA
 val_data_list <- mm
@@ -37,7 +33,7 @@ seed <- 1
 
 set.seed(seed)
 fit <- rfsrc(Surv(OS.time,OS)~.,data = est_dd,
-             ntree = 1000,nodesize = rf_nodesize,##该值建议多调整  
+             ntree = 1000,nodesize = rf_nodesize,
              splitrule = 'logrank',
              importance = T,
              proximity = T,
@@ -81,7 +77,7 @@ for (direction in c("both", "backward", "forward")) {
   result <- rbind(result,cc)
 }
 ##################################
-#### 3-8.StepCox+gbm ####
+#### 3-8.StepCox+survivalsvm ####
 ##################################
 
 for (direction in c("both", "backward")) {
